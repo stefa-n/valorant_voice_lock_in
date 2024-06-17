@@ -67,14 +67,17 @@ void recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         
         SetCursorPos((int)positions[charIndex].X, (int)positions[charIndex].Y);
         mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+        Thread.Sleep(20);
         mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
         
-        System.Threading.Thread.Sleep(100);
+        Thread.Sleep(100);
         
         SetCursorPos(942, 730);
         mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+        Thread.Sleep(20);
         mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
         
+        Thread.Sleep(1000);
         System.Environment.Exit(0);
     }
 }
