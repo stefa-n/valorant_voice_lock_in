@@ -13,7 +13,7 @@ const int mouseeventfLeftUp = 0x04;
 SpeechRecognitionEngine recognizer = new SpeechRecognitionEngine();
 
 string[] words =
-{
+[
     "Search for a match",
     "Cancel search for a match",
     "Lock in Brimstone",
@@ -23,7 +23,7 @@ string[] words =
     "Lock in Jett",
     "Lock in Neon",
     "Exit Lock In"
-};
+];
 
 foreach (var word in words)
 {
@@ -32,7 +32,7 @@ foreach (var word in words)
 Console.WriteLine("");
 
 Vector2[] positions =
-{
+[
     new Vector2(940, 995),
     new Vector2(1047, 983),
     new Vector2(626, 838),
@@ -41,7 +41,7 @@ Vector2[] positions =
     new Vector2(873, 842),
     new Vector2(961, 833),
     new Vector2(1046, 844),
-};
+];
 
 Grammar grammar = new Grammar(new GrammarBuilder(new Choices(words)));
 recognizer.LoadGrammar(grammar);
@@ -64,9 +64,9 @@ void recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
     {
         if (e.Result.Text == "Exit Lock In") System.Environment.Exit(0); // checks if the user said the exit keyword
 
-        int charIndex = -1;
+        var charIndex = -1;
 
-        for (int i = 0; i < words.Length; i++)
+        for (var i = 0; i < words.Length; i++)
         {
             if (e.Result.Text == words[i])
                 charIndex = i;
