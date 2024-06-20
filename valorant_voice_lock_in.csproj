@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <PackageReference Include="System.Speech" Version="9.0.0-preview.5.24306.7" />
+      <PackageReference Include="Valorant" Version="1.0.4" />
     </ItemGroup>
 
 </Project>

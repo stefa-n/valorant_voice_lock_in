@@ -1,14 +1,5 @@
-﻿using System.Runtime.InteropServices;
-using System.Speech.Recognition;
+﻿using System.Speech.Recognition;
 using System.Numerics;
-
-[DllImport("user32")]
-static extern int SetCursorPos(int x, int y);
-
-[DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
-static extern void mouse_event(long dwFlags, long dx, long dy, long cButtons, long dwExtraInfo);
-const int mouseeventLeftDown = 0x02;
-const int mouseeventLeftUp = 0x04;
 
 SpeechRecognitionEngine recognizer = new SpeechRecognitionEngine();
 
@@ -18,7 +9,7 @@ string[] words =
     "Cancel search for a match",
     "Lock in Brimstone",
     "Lock in Cypher",
-    "Lock in Gecko",
+    "Lock in Gekko",
     "Lock in Iso",
     "Lock in Jett",
     "Lock in Neon",
@@ -57,39 +48,45 @@ while (true)
     Console.ReadLine();
 }
 
-void recognizer_SpeechRecognized(object? sender, SpeechRecognizedEventArgs e)
+async void recognizer_SpeechRecognized(object? sender, SpeechRecognizedEventArgs e)
 {
     Console.WriteLine("Recognized text: " + e.Result.Text + " " + e.Result.Confidence * 100 + "%");
     if (e.Result.Confidence * 100 > 90f)
     {
         if (e.Result.Text == "Exit Lock In") System.Environment.Exit(0); // checks if the user said the exit keyword
+        string character = e.Result.Text.Remove(0, 8);
 
-        var charIndex = -1;
-
-        for (var i = 0; i < words.Length; i++)
+        switch (character)
         {
-            if (e.Result.Text == words[i])
-                charIndex = i;
+            case "Brimstone":
+                await Valorant.Pregame.SelectCharacter(Valorant.Agents.Brimstone);
+                await Valorant.Pregame.LockCharacter(Valorant.Agents.Brimstone); 
+                break;
+            
+            case "Cypher":
+                await Valorant.Pregame.SelectCharacter(Valorant.Agents.Cypher);
+                await Valorant.Pregame.LockCharacter(Valorant.Agents.Cypher); 
+                break;
+            
+            case "Iso":
+                await Valorant.Pregame.SelectCharacter(Valorant.Agents.Iso);
+                await Valorant.Pregame.LockCharacter(Valorant.Agents.Iso); 
+                break;
+            
+            case "Jett":
+                await Valorant.Pregame.SelectCharacter(Valorant.Agents.Jett);
+                await Valorant.Pregame.LockCharacter(Valorant.Agents.Jett); 
+                break;
+            
+            case "Neon":
+                await Valorant.Pregame.SelectCharacter(Valorant.Agents.Neon);
+                await Valorant.Pregame.LockCharacter(Valorant.Agents.Neon); 
+                break;
+            
+            case "Gekko":
+                await Valorant.Pregame.SelectCharacter(Valorant.Agents.Gekko);
+                await Valorant.Pregame.LockCharacter(Valorant.Agents.Gekko); 
+                break;
         }
-        
-        SetCursorPos((int)positions[charIndex].X, (int)positions[charIndex].Y);
-        Thread.Sleep(20);
-        SetCursorPos(1000, 500);
-        Thread.Sleep(20);
-        SetCursorPos((int)positions[charIndex].X, (int)positions[charIndex].Y);
-        mouse_event(mouseeventLeftDown, 0, 0, 0, 0);
-        Thread.Sleep(20);
-        mouse_event(mouseeventLeftUp, 0, 0, 0, 0);
-        
-        Thread.Sleep(100);
-        
-        SetCursorPos(942, 730);
-        Thread.Sleep(20);
-        SetCursorPos(1000, 500);    
-        Thread.Sleep(20);
-        SetCursorPos(942, 730);
-        mouse_event(mouseeventLeftDown, 0, 0, 0, 0);
-        Thread.Sleep(20);
-        mouse_event(mouseeventLeftUp, 0, 0, 0, 0);
     }
 }
