@@ -53,7 +53,10 @@ async void recognizer_SpeechRecognized(object? sender, SpeechRecognizedEventArgs
     Console.WriteLine("Recognized text: " + e.Result.Text + " " + e.Result.Confidence * 100 + "%");
     if (e.Result.Confidence * 100 > 90f)
     {
-        if (e.Result.Text == "Exit Lock In") System.Environment.Exit(0); // checks if the user said the exit keyword
+        if (e.Result.Text == "Exit Lock In") System.Environment.Exit(0);
+        if (e.Result.Text == "Search for a match") { await Valorant.Party.StartQueue(); }
+        if (e.Result.Text == "Cancel search for a match") { await Valorant.Party.LeaveQueue(); }
+        
         string character = e.Result.Text.Remove(0, 8);
 
         switch (character)
