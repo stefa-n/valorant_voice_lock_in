@@ -2,21 +2,20 @@
 using System.Speech.Recognition;
 using System.Numerics;
 
-if(!OperatingSystem.IsWindows())
-    System.Environment.Exit(1);
-
 [DllImport("user32")]
 static extern int SetCursorPos(int x, int y);
 
 [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
 static extern void mouse_event(long dwFlags, long dx, long dy, long cButtons, long dwExtraInfo);
-const int MOUSEEVENTF_LEFTDOWN = 0x02;
-const int MOUSEEVENTF_LEFTUP = 0x04;
+const int mouseeventLeftDown = 0x02;
+const int mouseeventfLeftUp = 0x04;
 
 SpeechRecognitionEngine recognizer = new SpeechRecognitionEngine();
 
 string[] words =
 {
+    "Search for a match",
+    "Cancel search for a match",
     "Lock in Brimstone",
     "Lock in Cypher",
     "Lock in Gecko",
@@ -26,8 +25,16 @@ string[] words =
     "Exit Lock In"
 };
 
+foreach (var word in words)
+{
+    Console.WriteLine(word);
+}
+Console.WriteLine("");
+
 Vector2[] positions =
 {
+    new Vector2(940, 995),
+    new Vector2(1047, 983),
     new Vector2(626, 838),
     new Vector2(708, 848),
     new Vector2(796, 842),
@@ -53,7 +60,7 @@ while (true)
 void recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
 {
     Console.WriteLine("Recognized text: " + e.Result.Text + " " + e.Result.Confidence * 100 + "%");
-    if (e.Result.Confidence * 100 > 95f)
+    if (e.Result.Confidence * 100 > 90f)
     {
         if (e.Result.Text == "Exit Lock In") System.Environment.Exit(0); // checks if the user said the exit keyword
 
@@ -66,18 +73,23 @@ void recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         }
         
         SetCursorPos((int)positions[charIndex].X, (int)positions[charIndex].Y);
-        mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
         Thread.Sleep(20);
-        mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+        SetCursorPos(1000, 500);
+        Thread.Sleep(20);
+        SetCursorPos((int)positions[charIndex].X, (int)positions[charIndex].Y);
+        mouse_event(mouseeventLeftDown, 0, 0, 0, 0);
+        Thread.Sleep(20);
+        mouse_event(mouseeventfLeftUp, 0, 0, 0, 0);
         
         Thread.Sleep(100);
         
         SetCursorPos(942, 730);
-        mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
         Thread.Sleep(20);
-        mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
-        
-        Thread.Sleep(1000);
-        System.Environment.Exit(0);
+        SetCursorPos(1000, 500);    
+        Thread.Sleep(20);
+        SetCursorPos(942, 730);
+        mouse_event(mouseeventLeftDown, 0, 0, 0, 0);
+        Thread.Sleep(20);
+        mouse_event(mouseeventfLeftUp, 0, 0, 0, 0);
     }
 }
