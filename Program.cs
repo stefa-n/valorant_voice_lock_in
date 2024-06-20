@@ -8,7 +8,7 @@ static extern int SetCursorPos(int x, int y);
 [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
 static extern void mouse_event(long dwFlags, long dx, long dy, long cButtons, long dwExtraInfo);
 const int mouseeventLeftDown = 0x02;
-const int mouseeventfLeftUp = 0x04;
+const int mouseeventLeftUp = 0x04;
 
 SpeechRecognitionEngine recognizer = new SpeechRecognitionEngine();
 
@@ -46,7 +46,7 @@ Vector2[] positions =
 Grammar grammar = new Grammar(new GrammarBuilder(new Choices(words)));
 recognizer.LoadGrammar(grammar);
 
-recognizer.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(recognizer_SpeechRecognized);
+recognizer.SpeechRecognized += recognizer_SpeechRecognized;
 
 recognizer.SetInputToDefaultAudioDevice();
 
@@ -57,7 +57,7 @@ while (true)
     Console.ReadLine();
 }
 
-void recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+void recognizer_SpeechRecognized(object? sender, SpeechRecognizedEventArgs e)
 {
     Console.WriteLine("Recognized text: " + e.Result.Text + " " + e.Result.Confidence * 100 + "%");
     if (e.Result.Confidence * 100 > 90f)
@@ -79,7 +79,7 @@ void recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         SetCursorPos((int)positions[charIndex].X, (int)positions[charIndex].Y);
         mouse_event(mouseeventLeftDown, 0, 0, 0, 0);
         Thread.Sleep(20);
-        mouse_event(mouseeventfLeftUp, 0, 0, 0, 0);
+        mouse_event(mouseeventLeftUp, 0, 0, 0, 0);
         
         Thread.Sleep(100);
         
@@ -90,6 +90,6 @@ void recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         SetCursorPos(942, 730);
         mouse_event(mouseeventLeftDown, 0, 0, 0, 0);
         Thread.Sleep(20);
-        mouse_event(mouseeventfLeftUp, 0, 0, 0, 0);
+        mouse_event(mouseeventLeftUp, 0, 0, 0, 0);
     }
 }
