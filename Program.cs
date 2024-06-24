@@ -22,18 +22,6 @@ foreach (var word in words)
 }
 Console.WriteLine("");
 
-Vector2[] positions =
-[
-    new Vector2(940, 995),
-    new Vector2(1047, 983),
-    new Vector2(626, 838),
-    new Vector2(708, 848),
-    new Vector2(796, 842),
-    new Vector2(873, 842),
-    new Vector2(961, 833),
-    new Vector2(1046, 844),
-];
-
 Grammar grammar = new Grammar(new GrammarBuilder(new Choices(words)));
 recognizer.LoadGrammar(grammar);
 
